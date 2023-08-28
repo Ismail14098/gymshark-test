@@ -1,0 +1,282 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "API Documentation",
+    "title": "Gymshark-Test",
+    "version": "1.0.0"
+  },
+  "host": "localhost:9000",
+  "basePath": "/",
+  "paths": {
+    "/package-api/v1/pack/": {
+      "post": {
+        "description": "Package create",
+        "tags": [
+          "Pack"
+        ],
+        "operationId": "PackRequest",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/PackRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PackResponse"
+          }
+        }
+      }
+    },
+    "/package-api/v1/package/": {
+      "get": {
+        "description": "Package get",
+        "tags": [
+          "Package"
+        ],
+        "operationId": "GetAllRequest",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PackagesResponse"
+          }
+        }
+      },
+      "post": {
+        "description": "Package create",
+        "tags": [
+          "Package"
+        ],
+        "operationId": "StorePackageRequest",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/StorePackageRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PackageResponse"
+          }
+        }
+      }
+    },
+    "/package-api/v1/package/ordered-by-size/": {
+      "get": {
+        "description": "Package get ordered by size",
+        "tags": [
+          "Package"
+        ],
+        "operationId": "GetAllOrderedBySizeRequest",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PackagesResponse"
+          }
+        }
+      }
+    },
+    "/package-api/v1/package/{id}/": {
+      "put": {
+        "description": "Package update",
+        "tags": [
+          "Package"
+        ],
+        "operationId": "UpdatePackageRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "uint64",
+            "x-go-name": "ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdatePackageRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PackageResponse"
+          }
+        }
+      },
+      "delete": {
+        "description": "Package delete",
+        "tags": [
+          "Package"
+        ],
+        "operationId": "DeletePackageRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "uint64",
+            "x-go-name": "ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/StatusResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "PackRequest": {
+      "type": "object",
+      "properties": {
+        "items_ordered": {
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "ItemsOrdered"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/api/package/transport"
+    },
+    "PackResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PackResult"
+          },
+          "x-go-name": "Result"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/api/package/transport"
+    },
+    "PackResult": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Amount"
+        },
+        "package": {
+          "$ref": "#/definitions/Package"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/models"
+    },
+    "Package": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "ID"
+        },
+        "size": {
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Size"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/models"
+    },
+    "PackageResponse": {
+      "type": "object",
+      "properties": {
+        "package": {
+          "$ref": "#/definitions/Package"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/api/package/transport"
+    },
+    "PackagesResponse": {
+      "type": "object",
+      "properties": {
+        "packages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Package"
+          },
+          "x-go-name": "Packages"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/api/package/transport"
+    },
+    "StatusResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "x-go-name": "Success"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/api/package/transport"
+    },
+    "StorePackageRequest": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Size"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/api/package/transport"
+    },
+    "UpdatePackageRequest": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Size"
+        }
+      },
+      "x-go-package": "gymshark-test/internal/api/package/transport"
+    }
+  },
+  "responses": {
+    "PackResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/PackResponse"
+      }
+    },
+    "PackageResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/PackageResponse"
+      }
+    },
+    "PackagesResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/PackagesResponse"
+      }
+    },
+    "StatusResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/StatusResponse"
+      }
+    }
+  }
+}
